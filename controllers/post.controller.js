@@ -1,9 +1,10 @@
 const postModel = require("../models/post.model");
-const postService = require("../server/post.service");
+const postService = require("../service/post.service");
 
 class PostController {
   async getAll(req, res) {
     try {
+      console.log(req.requestTime);
       const posts = await postService.getAll();
       res.status(200).json(posts);
     } catch (error) {
