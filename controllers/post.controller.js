@@ -2,50 +2,50 @@ const postModel = require("../models/post.model");
 const postService = require("../service/post.service");
 
 class PostController {
-  async getAll(req, res) {
+  async getAll(req, res, next) {
     try {
       console.log(req.requestTime);
       const posts = await postService.getAll();
       res.status(200).json(posts);
     } catch (error) {
-      res.status(500).json(error);
+      next(error);
     }
   }
 
-  async create(req, res) {
+  async create(req, res, next) {
     try {
-      const post = await postService.create(req.body, req.files.picture);
+      const post = await postService.create(req.body, req.files.picture, req.user.id);
       res.status(201).json(post);
     } catch (error) {
-      res.status(500).json(error);
+      next(error);
     }
   }
 
-  async delete(req, res) {
+  async delete(req, res, next) {
     try {
       const post = await postService.delete(req.params.id);
       res.status(200).json(post);
     } catch (error) {
-      res.status(500).json(error);
+      next(error);
     }
   }
 
-  async update(req, res) {
+  async update(req, res, next) {
     try {
       const { body, params } = req;
       const post = await postService.update(body, params.id);
       res.status(200).json(post);
     } catch (error) {
-      res.status(500).json(error);
+      next(error);
     }
   }
 
-  async getById(req, res) {
-    try { 
-        const post = await postService.getById(req.params.id);
-        res.status(200).json(post);
+  async getById(req, res, next) {
+    try {
+      const post = await postService.getById(req.params.id);
+      res.status(200).json(post);
     } catch (error) {
-      res.status(500).json(error);
+      next(error);
     }
   }
 }
